@@ -4,6 +4,7 @@
 
 # cos_debug_setting_create_coalition	-	Creates a new Coalition for debugging purposes
 # cos_debug_setting_destroy_coalition	-	Destroys the coalition you are currently in
+# cos_debug_setting_toggle_ai_yesmen	-	Toggles the setting for forcing AI to accept your coalition offers
 
 ##################################################
 
