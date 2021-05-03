@@ -1,0 +1,14 @@
+##################################################
+
+### Coalition system - Effect Localization
+
+# cos_character_accepted_coalition_invite	-	Custom description invokation; Used in the coalition invitation character interaction
+
+##################################################
+
+##################################################
+# cos_character_accepted_coalition_invite - Custom description invokation; Used in the coalition invitation character interaction
+##################################################
+cos_character_accepted_coalition_invite = {
+	global = COS_CHAR_ACCEPTED_COALITION_INVITE_GLOBAL
+}

@@ -1,7 +1,14 @@
 ﻿l_english:
 
  # Invite to coalition
- cos_invite_to_coalition: "INV"
- cos_invite_to_coalition_interaction: "INT"
- cos_invite_to_coalition_interaction_desc: "INT_DESC"
- COS_INVITE_TO_COALITION_NOTIFICATION: "INT_NOT"
+ cos_invite_to_coalition: "Invite to Coalition"
+ cos_invite_to_coalition_interaction: "Send invitation"
+ cos_invite_to_coalition_interaction_desc: "Invites the character to join your coalition"
+ COS_INVITE_TO_COALITION_NOTIFICATION: "COS_INV_NOTIFICATION"
+ 
+ COS_CHAR_ACCEPTED_COALITION_INVITE_GLOBAL: "[TARGET_CHARACTER.GetShortUIName] joins your Coalition!"
+ 
+ # Event text
+ cos_ci.1.title: "[recipient.GetNameNoTooltip] has joined your coalition"
+ cos_ci.1.desc: "[recipient.GetName] has chosen to accept your offer, and has joined your coalition."
+ cos_ci.1.opt.ok: "Great!"

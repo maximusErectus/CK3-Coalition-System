@@ -1,4 +1,4 @@
-##################################################
+﻿##################################################
 
 ### Coalition system - Character Interactions | Joining Coalitions
 
@@ -56,8 +56,8 @@ cos_invite_to_coalition = {
 			scope:recipient = {
 				target_is_liege_or_above = scope:actor
 				target_is_vassal_or_below = scope:actor
-			}
 		}
+			}
 		scope:recipient.highest_held_title_tier < scope:actor.highest_held_title_tier
 	}
 
@@ -92,11 +92,13 @@ cos_invite_to_coalition = {
 				}
 				use_hook = scope:recipient
 			}
-		}
-
-		cos_join_coalition_effect = {
-			COALITION_OBJ = scope:actor.var:coalition
-			CHARACTER = scope:recipient
+			custom_description = {
+				text =  cos_character_accepted_coalition_invite
+				subject = scope:actor
+				object = scope:recipient
+				
+				trigger_event = cos_ci.1
+			}
 		}
 	}
 	

@@ -1,0 +1,48 @@
+﻿namespace = cos_ci
+
+##################################################
+
+### Coalition system events
+
+# cos_ci.1		- Character Interaction - Fires when a character accepts a coalition invite
+
+##################################################
+
+##################################################
+# Character Interaction - Fires when a character accepts a coalition invite
+##################################################
+cos_ci.1 = {
+	type = character_event
+	title = cos_ci.1.title
+	desc = cos_ci.1.desc	
+	theme = realm
+	
+	left_portrait = {
+		character = scope:actor
+	}
+	right_portrait = {
+		character = scope:recipient
+	}
+	
+	trigger = {
+		exists = scope:actor
+		exists = scope:recipient
+		exists = scope:actor.var:coalition
+	}
+	
+	immediate = {
+		cos_join_coalition_effect = {
+			COALITION_OBJ = scope:actor.var:coalition
+			CHARACTER = scope:recipient
+		}
+	}
+		
+	option = {
+		name = cos_ci.1.opt.ok
+	}
+}
+
+
+
+
+
