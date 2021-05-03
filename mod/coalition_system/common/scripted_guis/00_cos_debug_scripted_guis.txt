@@ -1,0 +1,24 @@
+﻿##################################################
+
+### Coalition system - Scripted GUIs | Debug Scripted GUIs
+
+# cos_debug_setting_create_coalition	-	Creates a new Coalition for debugging purposes
+
+##################################################
+
+##################################################
+# cos_debug_setting_create_coalition - Creates a new Coalition for debugging purposes
+##################################################
+cos_debug_setting_create_coalition = {
+	scope = character
+	
+	effect = {
+		save_scope_as = player
+		cos_create_coalition_effect = {
+			LEADER = scope:player
+			NAME = cos_dbg_coalition_name
+			COA = generate
+			CAN_INHERIT = no	
+		}
+	}
+}

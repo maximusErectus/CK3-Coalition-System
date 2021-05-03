@@ -1,0 +1,143 @@
+﻿window = {
+	#* This name is used during creation
+	name = "cos_debug_menu_window"
+	parentanchor = center
+	position = { -50 100 }
+	size = { 700 400 }
+	layer = top
+	filter_mouse = all
+	alwaystransparent = no
+
+	using = Window_Background
+	using = Window_Decoration
+	movable = yes
+	
+	
+	state = {
+		name = _show
+		using = Animation_FadeIn_Standard
+		using = Sound_WindowShow_Standard
+	
+		on_start = "[GetVariableSystem.Set( 'cos_debug_gui_window_open', 'true' )]"
+	}
+	
+	state = {
+		name = _hide
+		using = Animation_FadeOut_Standard
+		using = Sound_WindowHide_Standard
+	
+		on_start = "[GetVariableSystem.Clear( 'cos_debug_gui_window_open' )]"
+	}
+
+	header_standard = {
+		layoutpolicy_horizontal = expanding
+		size = { 625 43 }
+		position = { 40 15 }
+
+		blockoverride "header_text"
+		{
+			text = "COS_DEBUG_HEADER_TEXT"
+		}
+
+		blockoverride "button_close"
+		{
+			# Make sure this uses the name as seen at the top*
+			onclick = "[ExecuteConsoleCommand('GUI.ClearWidgets cos_debug_menu_window')]"
+		}
+
+		blockoverride "button_back"
+		{
+			visible = no
+		}
+	}
+	
+	scrollbox = {
+		size = { 650 330 }
+		position = { 30 55 }
+		
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+
+		blockoverride "scrollbox_content" #TODO: Change all DummyMale bits to GlobalVariable bits
+		{
+			vbox = { margin_bottom = 20 }
+			
+			# Settings
+			cos_setting_button = {
+				blockoverride "opt_name" {
+					text = "COS_DEBUG_OPT_CREATE_COALITION"
+				}
+				blockoverride "opt_text" {
+					text = "COS_DEBUG_OPT_CREATE_COALITION_BTN"
+				}
+				blockoverride "opt_tt" { }
+				blockoverride "opt_effect" {
+					onclick =  "[GetScriptedGui('cos_debug_setting_create_coalition').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) ]"	
+					enabled = "[And(Not(IsObserver), Not(GetPlayer.MakeScope.Var('coalition').IsSet))]"
+				}
+			}
+		}
+	}
+}
+
+Types cos_debug_settings {	
+	type cos_setting_checkbox = hbox {
+		size = { 600 24 }
+		parentanchor = left|top
+		
+		text_single = {
+			layoutpolicy_horizontal = expanding
+			margin_right = 10
+			autoresize = no
+			size = { 355 24 }
+			
+			block "opt_name" {
+				text = "COS_DEBUG_DEFAULT_OPT_NAME"
+			}
+		}
+		expand = {}
+		button_checkbox = {
+			size = { 24 24 }
+			
+			block "opt_tt" {
+				tooltip = "COS_DEBUG_DEFAULT_OPT_TT"
+			}
+			
+			block "opt_effect" {
+				
+			}
+		}
+	}
+	
+	type cos_setting_button = hbox {
+		size = { 600 24 }
+		parentanchor = left|top
+		
+		text_single = {
+			layoutpolicy_horizontal = expanding
+			margin_right = 10
+			autoresize = no
+			size = { 305 24 }
+			
+			block "opt_name" {
+				text = "COS_DEBUG_DEFAULT_OPT_NAME"
+			}
+		}
+		expand = {}
+		button_standard = {
+			size = { 105 24 }
+			
+			block "opt_text" {
+				text = "COS_DEBUG_DEFAULT_OPT_TEXT"
+			}
+			
+			block "opt_tt" {
+				tooltip = "COS_DEBUG_DEFAULT_OPT_TT"
+			}			
+			
+			block "opt_effect" {
+				
+			}
+		}
+	}
+}

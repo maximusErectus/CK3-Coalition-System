@@ -1,0 +1,39 @@
+﻿vbox = {
+    name = "cos_open_debug"
+    layoutpolicy_horizontal = expanding
+    margin = { 5 0 }
+    spacing = 10
+
+    fixedgridbox = {
+        name = "option_grid"
+        addcolumn = 490
+        addrow = 42
+        datamodel = "[EventWindow.GetOptions]"
+
+        item = {
+            button_event_standard = {
+                name = "event_option_button"
+                
+                state = {
+                    name = widget_show
+                    trigger_on_create = yes
+                    
+                    # Prevent it from showing
+                    on_start = "[PdxGuiWidget.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.InterruptAnimation('show')]"        
+                    on_start = "[PdxGuiWidget.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.InterruptAnimation('appear')]"    
+                    on_start = "[PdxGuiWidget.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.AccessParent.InterruptAnimation('_hide')]"    
+
+                    # CUSTOM WINDOW, I COMMAND THEE COMETH FORTH!
+                    on_start = "[ExecuteConsoleCommand('gui.createwidget gui/custom_gui/cos_debug_menu.gui cos_debug_menu_window')]"
+                    
+                    duration = 0.5 # Needed for.. Reasons?
+
+                    # Close the window
+                    on_finish = "[EventOption.Select]"
+                }
+            }
+        }
+    }
+    
+    expand = {}
+}

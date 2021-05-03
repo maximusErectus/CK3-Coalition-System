@@ -1,0 +1,30 @@
+﻿namespace = cos_dbg
+
+##################################################
+
+### Coalition system events
+
+# cos_dbg.1		- Debug - Open the debug menu
+
+##################################################
+
+##################################################
+# Debug - Open the debug menu
+##################################################
+cos_dbg.1 = {
+	type = character_event
+	title = empty_line
+	desc = empty_line	
+	theme = family	
+	widgets = {
+		widget = {
+			gui = "cos_open_debug"			
+			container = "custom_widgets_container"
+			controller = default
+			setup_scope = { }
+		}
+	}
+		
+	# This won't actually ever be shown.
+	option = { name = empty_line }
+}

@@ -1,0 +1,23 @@
+﻿l_english:
+ # Title names
+ cos_dbg_coalition_name: "My debug coalition"
+ cos_dbg_coalition_name_adj: "My debug coalitian adjective"
+ 
+ # Decisions
+ cos_open_debug: "Open COS Debug"
+ cos_open_debug.desc: "Opens the debug menu for the Coalition System"
+ cos_open_debug.tt: "$cos_open_debug$"
+ cos_open_debug.effect.tt: "$cos_open_debug.desc$"
+ cos_open_debug_confirm: "$cos_open_debug$"
+ 
+ # Debug menu
+ COS_DEBUG_HEADER_TEXT: "COS - Debug menu"
+ COS_DEBUG_DEFAULT_OPT_TEXT: "OPT_TEXT"
+ COS_DEBUG_DEFAULT_OPT_NAME: "OPT_NAME"
+ COS_DEBUG_DEFAULT_OPT_TT: "OPT_TT"
+ 
+ COS_DEBUG_OPT_CREATE_COALITION: "Create a new Coalition"
+ COS_DEBUG_OPT_CREATE_COALITION_BTN: "Create Coalition"
+ 
+ # Empty
+ empty_line: ""

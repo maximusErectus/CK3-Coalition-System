@@ -1,0 +1,16 @@
+﻿#TODO: Add appropriate documentation based on its contents
+cos_coalition_obj = {
+	#on_setup = {
+	#
+	#}
+
+	#on_end = {
+	#	story_owner = {
+	#		remove_character_modifier = book_translation_ongoing_modifier
+	#	}
+	#}
+
+	#on_owner_death = {
+	#	end_story = yes
+	#}
+}

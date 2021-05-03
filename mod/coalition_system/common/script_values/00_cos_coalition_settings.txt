@@ -1,0 +1,17 @@
+﻿##################################################
+
+### Coalition system - Script values | Coalition Settings
+
+# COALITION_DEFAULT_TIER	-	Determines what rank the coalition title should be
+#	Required scopes => scope:cos_leader, Character, The character that is going to create the title
+
+##################################################
+
+# Determines what rank the coalition will be
+COALITION_DEFAULT_TIER = {
+	value = scope:cos_leader.highest_held_title_tier
+	add = 1
+
+	min = tier_duchy
+	max = tier_empire
+}

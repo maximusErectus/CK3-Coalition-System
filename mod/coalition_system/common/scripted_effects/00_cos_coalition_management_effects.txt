@@ -1,0 +1,147 @@
+﻿##################################################
+
+### Coalition system - Scripted Effects | Coalition Management
+
+# cos_create_coalition_effect	-	Creates a new coalition
+
+##################################################
+
+##################################################
+# cos_create_coalition_effect - Creates a new coalition
+#
+# 	Parameter => LEADER, Character, The character that will lead the coalition
+#	Parameter => NAME, loc_key, The localization key used for the coalitions' name
+#	Parameter => COA, none|generate|scope NAME | existing coa, Either generates a coa, takes a scope:NAME to use as a coa or uses a COA like 'k_england'
+#	Parameter => CAN_INHERIT, yes/no, Determines whether the coalition can be inherited upon leader death
+#
+#	Out => scope:coalition, Title, The title associated with the coalition
+#	Out => scope:coalition_obj, Story_cycle, The story object related to the coalition
+##################################################
+cos_create_coalition_effect = {
+	# Save our parameters as scopes, to make sure they are properly named
+	$LEADER$ = { save_scope_as = cos_leader }
+	save_scope_value_as = {
+		name = cos_can_inherit
+		value = $CAN_INHERIT$
+	}
+	
+	# Create the title
+	switch = {
+		trigger = COALITION_DEFAULT_TIER
+		tier_duchy = {
+			create_dynamic_title = {
+				tier = duchy
+				name = $NAME$
+			}
+		}
+		tier_kingdom = {
+			create_dynamic_title = {
+				tier = kingdom
+				name = $NAME$
+			}
+		}
+		tier_empire = {
+			create_dynamic_title = {
+				tier = empire
+				name = $NAME$
+			}
+		}
+	}
+	
+	# Change scope name
+	scope:new_title = { save_scope_as = coalition }
+	
+	# Create the title change
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+
+	# Set-up some settings
+	scope:coalition = {
+		set_delete_on_destroy = yes
+		set_no_automatic_claims = yes
+		set_definitive_form = yes
+		set_can_be_named_after_dynasty = no
+		
+		if = {
+			limit = { scope:cos_can_inherit = no }
+			set_destroy_on_succession = yes
+		}
+		
+		change_title_holder = {
+			holder = scope:cos_leader
+			change = scope:change
+		}
+	}
+	
+	# Create storage for the coalition
+	create_story = {
+		type = cos_coalition_obj
+		save_scope_as = coalition_obj
+	}
+	scope:coalition_obj = {
+		set_variable = {
+			name = cos_leader
+			value = scope:cos_leader
+		}
+		set_variable = {
+			name = cos_title
+			value = scope:coalition
+		}
+	}
+	
+	# Store coalition in the leader, and globally
+	#TODO: Fix DummyMale before 1.4 drops
+	scope:cos_leader = {
+		set_variable = {
+			name = coalition
+			value = scope:coalition_obj
+		}
+		
+		# Actually get the title
+		get_title = scope:coalition
+		
+		# Prevent children from getting a claim
+		scope:coalition = {
+			every_claimant = {
+				remove_claim = scope:coalition
+			}
+		}		
+	}
+	dummy_male = {
+		add_to_variable_list = {
+			name = cos_list
+			target = scope:coalition_obj
+		}
+	}
+	
+	# Set-up Coalition COA
+	switch = {
+		trigger = flag:$COA$
+		flag:none = { }
+		flag:generate = {
+			scope:coalition = {
+				generate_coa = yes
+			}
+		}
+		fallback = {
+			scope:coalition = {
+				if = {
+					limit = { exists = scope:$COA$ }
+					set_coa = scope:$COA$
+				}
+				else = {
+					set_coa = $COA$
+				}
+			}
+		}
+	}
+	
+	# Clean-up unnecessary scopes 
+	clear_saved_scope = cos_leader
+	clear_saved_scope = new_title
+	clear_saved_scope = change
+	clear_saved_scope = cos_can_inherit
+}
