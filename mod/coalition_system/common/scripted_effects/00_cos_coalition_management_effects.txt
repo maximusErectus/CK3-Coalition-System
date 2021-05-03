@@ -101,14 +101,7 @@ cos_create_coalition_effect = {
 		}
 		
 		# Actually get the title
-		get_title = scope:coalition
-		
-		# Prevent children from getting a claim
-		scope:coalition = {
-			every_claimant = {
-				remove_claim = scope:coalition
-			}
-		}		
+		get_title = scope:coalition	
 	}
 	dummy_male = {
 		add_to_variable_list = {
