@@ -1,0 +1,153 @@
+##################################################
+
+### Coalition system - Character Interactions | Joining Coalitions
+
+# cos_invite_to_coalition	-	Invites the recipient to the coalition
+
+##################################################
+
+##################################################
+# cos_invite_to_coalition - Invites the recipient to the coalition
+##################################################
+cos_invite_to_coalition = {
+#TODO: Add descriptions where they're lacking
+#TODO: Actually finish this
+	category = interaction_category_diplomacy
+	
+	ai_min_reply_days = 4
+	ai_max_reply_days = 9
+	ai_maybe = yes
+	
+	use_diplomatic_range = yes
+
+	send_name = cos_invite_to_coalition_interaction
+
+	interface_priority = 60
+	desc = cos_invite_to_coalition_interaction_desc
+
+	greeting = positive
+	notification_text = COS_INVITE_TO_COALITION_NOTIFICATION
+
+	is_shown = {
+		scope:recipient = {
+			NOT = { this = scope:actor }
+			is_ruler = yes
+		}
+		scope:actor = {
+			is_ruler = yes
+		}
+		exists = scope:actor.var:coalition
+	}
+	
+	is_valid_showing_failures_only = {
+		scope:recipient = {
+			is_landed = yes
+			is_imprisoned = no
+		}
+		scope:actor = {
+			is_landed = yes
+			is_imprisoned = no
+			NOT = {
+				is_at_war_with = scope:recipient
+			}
+		}
+		scope:recipient = { is_diplomatically_available = yes }
+		NOR = {
+			scope:recipient = {
+				target_is_liege_or_above = scope:actor
+				target_is_vassal_or_below = scope:actor
+			}
+		}
+		scope:recipient.highest_held_title_tier < scope:actor.highest_held_title_tier
+	}
+
+	is_valid = {		
+		NOT = { exists = scope:recipient.var:coalition }
+	}
+
+
+	#Use hook
+	send_option = {
+		is_valid = {
+			scope:actor = {
+				has_usable_hook = scope:recipient
+			}
+		}
+		flag = hook	
+		localization = GENERIC_SPEND_A_HOOK
+	}
+	should_use_extra_icon = {
+		scope:actor = { has_usable_hook = scope:recipient }
+	}
+	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
+
+	send_options_exclusive = no
+		
+	on_accept = {
+		scope:actor = {
+			if = {
+				limit = {
+					scope:hook = yes
+					has_hook = scope:recipient
+				}
+				use_hook = scope:recipient
+			}
+		}
+
+		cos_join_coalition_effect = {
+			COALITION_OBJ = scope:actor.var:coalition
+			CHARACTER = scope:recipient
+		}
+	}
+	
+	on_decline = {
+
+	}
+
+	#auto_accept = {
+	#	custom_description = {
+	#		text = "spending_hook"
+	#		subject = scope:actor
+	#		object = scope:recipient
+	#		scope:hook = yes
+	#	}
+	#}
+	
+	ai_accept = {
+		base = 0
+		
+		modifier = {
+			add = 1000
+			#TODO: Fix DummyMale before 1.4
+			exists = dummy_male.var:cos_ai_yesmen
+		}
+		
+		modifier = {
+			add = 50
+			scope:hook = yes
+		}
+	}
+
+	ai_potential = {
+		exists = var:coalition
+	}
+	
+	ai_targets = {
+		ai_recipients = neighboring_rulers
+		max = 5
+	}
+	
+	ai_frequency = 72
+	
+	ai_will_do = {
+		base = 0
+		
+		modifier = { # The AI shouldn't propose to their Lieges or Vassals
+			factor = 0
+			OR = {
+				target_is_liege_or_above = scope:recipient
+				target_is_vassal_or_below = scope:recipient
+			}
+		}
+	}
+}
