@@ -26,7 +26,7 @@
                     # CUSTOM WINDOW, I COMMAND THEE COMETH FORTH!
                     on_start = "[ExecuteConsoleCommand('gui.createwidget gui/custom_gui/cos_debug_menu.gui cos_debug_menu_window')]"
                     
-                    duration = 0.5 # Needed for.. Reasons?
+                    duration = 0.8 # Needed for.. Reasons?
 
                     # Close the window
                     on_finish = "[EventOption.Select]"

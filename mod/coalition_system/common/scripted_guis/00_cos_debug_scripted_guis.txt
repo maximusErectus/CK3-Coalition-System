@@ -3,6 +3,7 @@
 ### Coalition system - Scripted GUIs | Debug Scripted GUIs
 
 # cos_debug_setting_create_coalition	-	Creates a new Coalition for debugging purposes
+# cos_debug_setting_destroy_coalition	-	Destroys the coalition you are currently in
 
 ##################################################
 
@@ -13,12 +14,45 @@ cos_debug_setting_create_coalition = {
 	scope = character
 	
 	effect = {
-		save_scope_as = player
+		save_scope_as = char
 		cos_create_coalition_effect = {
-			LEADER = scope:player
+			LEADER = scope:char
 			NAME = cos_dbg_coalition_name
 			COA = generate
 			CAN_INHERIT = no	
+		}
+	}
+}
+
+##################################################
+# cos_debug_setting_destroy_coalition - Destroys the coalition you are currently in
+##################################################
+cos_debug_setting_destroy_coalition = {
+	scope = character
+	
+	effect = {
+		save_scope_as = char
+		cos_destroy_coalition_effect = { COALITION_OBJ = scope:char.var:coalition }
+	}
+}
+
+##################################################
+# cos_debug_setting_toggle_ai_yesmen - Toggles the setting for forcing AI to accept your coalition offers
+#TODO: Fix DummyMale for 1.4
+##################################################
+cos_debug_setting_toggle_ai_yesmen = {
+	scope = character
+	
+	effect = {
+		save_scope_as = char
+		dummy_male = {
+			if = {
+				limit = { exists = var:cos_ai_yesmen }
+				remove_variable = cos_ai_yesmen
+			}
+			else = {
+				set_variable = cos_ai_yesmen
+			}
 		}
 	}
 }

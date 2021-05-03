@@ -62,7 +62,7 @@
 		{
 			vbox = { margin_bottom = 20 }
 			
-			# Settings
+			# Create Coalition
 			cos_setting_button = {
 				blockoverride "opt_name" {
 					text = "COS_DEBUG_OPT_CREATE_COALITION"
@@ -74,6 +74,34 @@
 				blockoverride "opt_effect" {
 					onclick =  "[GetScriptedGui('cos_debug_setting_create_coalition').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) ]"	
 					enabled = "[And(Not(IsObserver), Not(GetPlayer.MakeScope.Var('coalition').IsSet))]"
+				}
+			}
+			# Destroy coalition
+			cos_setting_button = {
+				blockoverride "opt_name" {
+					text = "COS_DEBUG_OPT_DESTROY_COALITION"
+				}
+				blockoverride "opt_text" {
+					text = "COS_DEBUG_OPT_DESTROY_COALITION_BTN"
+				}
+				blockoverride "opt_tt" { }
+				blockoverride "opt_effect" {
+					onclick =  "[GetScriptedGui('cos_debug_setting_destroy_coalition').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) ]"	
+					enabled = "[And(Not(IsObserver), GetPlayer.MakeScope.Var('coalition').IsSet)]"
+				}
+			}
+			# Force AI acceptance
+			cos_setting_checkbox = {
+				blockoverride "opt_name" {
+					text = "COS_DEBUG_OPT_AI_YESMEN"
+				}
+				blockoverride "opt_text" { }
+				blockoverride "opt_tt" {
+					tooltip = "COS_DEBUG_OPT_AI_YESMEN_TT"
+				}
+				blockoverride "opt_effect" {
+					onclick =  "[GetScriptedGui('cos_debug_setting_toggle_ai_yesmen').Execute( GuiScope.SetRoot( GetDummyMale.MakeScope ).End ) ]"	
+					checked = "[GetDummyMale.MakeScope.Var('cos_ai_yesmen').IsSet]"
 				}
 			}
 		}
@@ -117,7 +145,7 @@ Types cos_debug_settings {
 			layoutpolicy_horizontal = expanding
 			margin_right = 10
 			autoresize = no
-			size = { 305 24 }
+			size = { 355 24 }
 			
 			block "opt_name" {
 				text = "COS_DEBUG_DEFAULT_OPT_NAME"
@@ -125,7 +153,7 @@ Types cos_debug_settings {
 		}
 		expand = {}
 		button_standard = {
-			size = { 105 24 }
+			size = { 125 24 }
 			
 			block "opt_text" {
 				text = "COS_DEBUG_DEFAULT_OPT_TEXT"

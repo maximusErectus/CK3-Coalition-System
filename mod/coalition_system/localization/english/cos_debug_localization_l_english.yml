@@ -18,6 +18,10 @@
  
  COS_DEBUG_OPT_CREATE_COALITION: "Create a new Coalition"
  COS_DEBUG_OPT_CREATE_COALITION_BTN: "Create Coalition"
+ COS_DEBUG_OPT_DESTROY_COALITION: "Destroys your coalition"
+ COS_DEBUG_OPT_DESTROY_COALITION_BTN: "Destroy Coalition"
+ COS_DEBUG_OPT_AI_YESMEN: "AI Yesmen"
+ COS_DEBUG_OPT_AI_YESMEN_TT: "Force AI to accept coalition offers"
  
  # Empty
  empty_line: ""
