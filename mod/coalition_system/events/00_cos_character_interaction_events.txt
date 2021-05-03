@@ -5,6 +5,7 @@
 ### Coalition system events
 
 # cos_ci.1		- Character Interaction - Fires when a character accepts a coalition invite
+# cos_ci.2		- Handles result of cos_ci.1
 
 ##################################################
 
@@ -30,19 +31,29 @@ cos_ci.1 = {
 		exists = scope:actor.var:coalition
 	}
 	
+	option = {
+		name = cos_ci.1.opt.ok
+		
+		custom_description = {
+			text =  cos_character_accepted_coalition_invite
+			subject = scope:actor
+			object = scope:recipient
+			
+			trigger_event = cos_ci.2
+		}
+	}
+}
+
+##################################################
+# cos_ci.2		- Handles result of cos_ci.1
+##################################################
+cos_ci.2 = {
+	hidden = yes	
+	
 	immediate = {
 		cos_join_coalition_effect = {
 			COALITION_OBJ = scope:actor.var:coalition
 			CHARACTER = scope:recipient
 		}
 	}
-		
-	option = {
-		name = cos_ci.1.opt.ok
-	}
 }
-
-
-
-
-

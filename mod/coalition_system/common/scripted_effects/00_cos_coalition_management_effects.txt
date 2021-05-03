@@ -81,6 +81,10 @@ cos_create_coalition_effect = {
 			name = cos_title
 			value = scope:coalition
 		}
+		set_variable = {
+			name = cos_old_title
+			value = scope:cos_leader.primary_title
+		}
 	}
 	
 	# Store coalition in the leader, and globally
@@ -131,11 +135,6 @@ cos_create_coalition_effect = {
 	
 	#TODO: Set-up war ?
 	#TODO: If war-setup fails, kill coalition ?
-	
-	# Clean-up unnecessary scopes 
-	#clear_saved_scope = cos_leader
-	#clear_saved_scope = new_title
-	#clear_saved_scope = cos_can_inherit
 }
 
 ##################################################
@@ -157,6 +156,19 @@ cos_destroy_coalition_effect = {
 	# Destroy title
 	scope:cos_obj.var:cos_leader = { destroy_title = scope:cos_obj.var:cos_title }
 	
+	# Restore old title
+	scope:cos_obj = {
+		var:cos_leader = {
+			if = {
+				limit = {
+					exists = PREV.var:cos_old_title
+					has_title = PREV.var:cos_old_title
+				}
+				set_primary_title_to = PREV.var:cos_old_title
+			}
+		}
+	}
+	
 	# Clear variables
 	scope:cos_obj.var:cos_leader = { remove_variable = coalition }
 	
@@ -170,9 +182,6 @@ cos_destroy_coalition_effect = {
 	
 	# Destroy story
 	scope:cos_obj = { end_story = yes }
-	
-	# Clean-up unnecessary scopes
-	#clear_saved_scope = cos_obj
 }
 
 ##################################################
@@ -182,34 +191,36 @@ cos_destroy_coalition_effect = {
 #	Parameter => COALITION_OBJ, Story_cycle, The coalition object containing data related to the coalition
 ##################################################
 cos_join_coalition_effect = {
+	#TODO: Add temporary opinion modifier to prevent instant rebellion
 	# Save our parameters as scopes, to make sure they are properly named
 	$COALITION_OBJ$ = { save_scope_as = cos_obj }
-	$CHARACTER$ = { save_scope_as = char }
+	$CHARACTER$ = { save_scope_as = cos_char }
 	
 	# Create story object
-	$CHARACTER$ = {create_story = {
+	create_story = {
 		type = cos_lv_link
 		save_scope_as = lv_link_obj
-	}}
+	}
+	
 	# Configure object
 	scope:lv_link_obj = {
 		# Add character
 		set_variable = {
-			name = char
-			value = scope:char
+			name = cos_char
+			value = scope:cos_char
 		}
 		# Add liege
 		if = {
-			limit = { exists = scope:char.liege }
+			limit = { exists = scope:cos_char.liege }
 			set_variable = {
-				name = char_liege
-				value = scope:char.liege
+				name = cos_char_liege
+				value = scope:cos_char.liege
 			}
 		}
 		else = {
 			set_variable = {
-				name = char_liege
-				value = scope:char
+				name = cos_char_liege
+				value = scope:cos_char
 			}
 		}
 	}
@@ -226,7 +237,7 @@ cos_join_coalition_effect = {
 	scope:cos_obj = {
 		add_to_variable_list = {
 			name = cos_member_list
-			target = scope:char
+			target = scope:cos_char
 		}
 	}
 	
@@ -236,7 +247,7 @@ cos_join_coalition_effect = {
 		save_scope_as = change
 		add_claim_on_loss = no
 	}
-	scope:char = {
+	scope:cos_char = {
 		change_liege = {
 			liege = scope:cos_obj.var:cos_leader
 			change = scope:change
@@ -249,22 +260,18 @@ cos_join_coalition_effect = {
 			value = scope:cos_obj
 		}
 	}
-	
-	# Clean-up unnecessary scopes
-	#clear_saved_scope = cos_obj
-	#clear_saved_scope = char
-	#clear_saved_scope = lv_link_obj
 }
 ##################################################
 # cos_leave_coalition_effect - Removes the scoped character from whatever coalition they're in
 ##################################################
 cos_leave_coalition_effect = {
+	#TODO: Remove temporary opinion modifier if it still exists
 	# Set-up scopes	
 	if = {
 		limit = { NOT = { exists = scope:cos_obj } }
 		var:coalition = { save_scope_as = cos_obj }
 	}
-	save_scope_as = char
+	save_scope_as = cos_char
 	
 	# Fetch the correct lv_link object
 	scope:cos_obj = {
@@ -272,7 +279,7 @@ cos_leave_coalition_effect = {
 			variable = cos_lv_list			
 			limit = {
 				story_type = cos_lv_link
-				var:char = scope:char
+				var:cos_char = scope:cos_char
 			}
 			save_scope_as = lv_link_obj
 		}
@@ -280,7 +287,7 @@ cos_leave_coalition_effect = {
 	
 	# Revert changes
 	if = {
-		limit = { scope:lv_link_obj.var:char_liege = scope:char }
+		limit = { scope:lv_link_obj.var:cos_char_liege = scope:cos_char }
 		
 		# Independence
 		create_title_and_vassal_change = {
@@ -288,7 +295,7 @@ cos_leave_coalition_effect = {
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
-		scope:char = {
+		scope:cos_char = {
 			becomes_independent = {
 				change = scope:change
 			}
@@ -302,9 +309,9 @@ cos_leave_coalition_effect = {
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
-		scope:char = {
+		scope:cos_char = {
 			change_liege = {
-				liege = scope:lv_link_obj.var:char_liege
+				liege = scope:lv_link_obj.var:cos_char_liege
 				change = scope:change
 			}
 			resolve_title_and_vassal_change = scope:change
@@ -318,7 +325,7 @@ cos_leave_coalition_effect = {
 	scope:cos_obj = {
 		remove_list_variable = {
 			name = cos_member_list
-			target = scope:char
+			target = scope:cos_char
 		}
 		remove_list_variable = {
 			name = cos_lv_list
@@ -328,9 +335,4 @@ cos_leave_coalition_effect = {
 	
 	# Destroy story
 	scope:lv_link_obj = { end_story = yes }
-	
-	# Clean-up unnecessary scopes
-	#clear_saved_scope = cos_obj
-	#clear_saved_scope = char
-	#clear_saved_scope = lv_link_obj
 }
