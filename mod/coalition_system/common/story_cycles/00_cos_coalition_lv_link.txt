@@ -1,16 +1,13 @@
-﻿#TODO: Add appropriate documentation based on its contents
-cos_lv_link = {
-	#on_setup = {
-	#
-	#}
+﻿##################################################
 
-	#on_end = {
-	#	story_owner = {
-	#		remove_character_modifier = book_translation_ongoing_modifier
-	#	}
-	#}
+### Coalition system - Objects / story_cycles | Liege-Vassal link object
 
-	#on_owner_death = {
-	#	end_story = yes
-	#}
-}
+# Used to store old vassal/liege relation, before the 'vassal' gets added to the coalition
+
+# Available variables:
+#	* cos_char - Character, The 'vassal' in the Liege-Vassal link
+#	* cos_char_liege - Character, The 'liege' in the Liege-Vassal link. Will be same as cos_char for independent characters
+#	* cos_title_tier - Script_value, Tier of the 'vassal's' primary title, used to do a top-down disbandment
+
+##################################################
+cos_lv_link = { }

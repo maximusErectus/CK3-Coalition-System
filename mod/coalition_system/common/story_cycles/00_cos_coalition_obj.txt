@@ -1,16 +1,18 @@
-﻿#TODO: Add appropriate documentation based on its contents
-cos_coalition_obj = {
-	#on_setup = {
-	#
-	#}
+﻿##################################################
 
-	#on_end = {
-	#	story_owner = {
-	#		remove_character_modifier = book_translation_ongoing_modifier
-	#	}
-	#}
+### Coalition system - Objects / story_cycles | Coalition object
 
-	#on_owner_death = {
-	#	end_story = yes
-	#}
-}
+# Used as the main body for storing information related to this specific coalition
+
+# Available variables:
+#	* cos_leader - Character, Leader of the coalition
+#	* cos_title - Title, Dynamic title of the coalition
+#	* cos_old_title - Title, Previous primary_title for the coalition leader
+#	* cos_member_count - Value, Amount of members in the coalition, excluding leader
+
+# Available lists:
+#	* cos_lv_list - List<cos_lv_link>, Contains a list of all Liege-Vassal links for the characters in the coalition
+#	* cos_member_list - List<Character>, A list of all characters in the coalition, excluding leader.
+
+##################################################
+cos_coalition_obj = { }

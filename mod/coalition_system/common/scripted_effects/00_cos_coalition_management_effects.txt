@@ -85,6 +85,10 @@ cos_create_coalition_effect = {
 			name = cos_old_title
 			value = scope:cos_leader.primary_title
 		}
+		set_variable = {
+			name = cos_member_count
+			value = 0
+		}
 	}
 	
 	# Store coalition in the leader, and globally
@@ -97,7 +101,7 @@ cos_create_coalition_effect = {
 		# Actually get the title
 		get_title = scope:coalition
 		
-		# Make sure its the primary title
+		# Make sure it's the primary title
 		if = {
 			limit = { NOT = { has_primary_title = scope:coalition } }
 			set_primary_title_to = scope:coalition
@@ -147,9 +151,12 @@ cos_destroy_coalition_effect = {
 	$COALITION_OBJ$ = { save_scope_as = cos_obj }
 	
 	scope:cos_obj = {
-		every_in_list = {
-			variable = cos_member_list
-			cos_leave_coalition_effect = yes
+		ordered_in_list = {
+			variable = cos_lv_list
+			order_by = var:cos_title_tier
+			max = scope:cos_obj.var:cos_member_count
+			
+			var:cos_char = { cos_leave_coalition_effect = yes }
 		}
 	}
 	
@@ -223,6 +230,11 @@ cos_join_coalition_effect = {
 				value = scope:cos_char
 			}
 		}
+		# Set title-tier, so we can revert changes from top-down
+		set_variable = {
+			name = cos_title_tier
+			value = scope:cos_char.primary_title.tier
+		}
 	}
 
 	# Add to coalition linking list
@@ -230,6 +242,10 @@ cos_join_coalition_effect = {
 		add_to_variable_list = {
 			name = cos_lv_list
 			target = scope:lv_link_obj
+		}
+		change_variable = {
+			name = cos_member_count
+			add = 1
 		}
 	}
 	
@@ -267,10 +283,7 @@ cos_join_coalition_effect = {
 cos_leave_coalition_effect = {
 	#TODO: Remove temporary opinion modifier if it still exists
 	# Set-up scopes	
-	if = {
-		limit = { NOT = { exists = scope:cos_obj } }
-		var:coalition = { save_scope_as = cos_obj }
-	}
+	var:coalition = { save_scope_as = cos_obj }
 	save_scope_as = cos_char
 	
 	# Fetch the correct lv_link object
@@ -330,6 +343,10 @@ cos_leave_coalition_effect = {
 		remove_list_variable = {
 			name = cos_lv_list
 			target = scope:lv_link_obj
+		}
+		change_variable = {
+			name = cos_member_count
+			subtract = 1
 		}
 	}
 	
